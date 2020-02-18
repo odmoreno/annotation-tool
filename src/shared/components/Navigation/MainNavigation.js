@@ -34,7 +34,7 @@ const MainNavigation = props => {
           <span />
         </button>
         <h1 className="main-navigation__title">
-          <Link to="/">Herramienta de Etiquetado</Link>
+          <Link to="/">Tools </Link>
         </h1>
         <nav className="main-navigation__header-nav">
           <NavLinks />

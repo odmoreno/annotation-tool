@@ -11,6 +11,7 @@ import Users from './user/pages/Users';
 import UserPlaces from './places/pages/UserPlaces';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 import FeatureList from './annotations/components/FeatureList';
+import MainD3 from './d3/pages/Main';
 
 const App = () => {
   return (
@@ -26,6 +27,9 @@ const App = () => {
           </Route>
           <Route path="/places/new" exact>
             <FeatureList />
+          </Route>
+          <Route path="/d3" exact>
+            <MainD3 />
           </Route>
           <Redirect to="/" />
         </Switch>
