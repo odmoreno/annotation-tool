@@ -4,8 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '../../shared/components/FormElements/Button';
+//import Card from '../../shared/components/UIElements/Card'
 
-import FeatureItem from './FeatureItem';
+
+import FeatureItem from './FeatureItem2';
 import VideoPlayer from '../../player/components/VideoPlayer';
 
 import './FeatureList.css';
@@ -25,26 +27,65 @@ const useStyles = makeStyles(theme => ({
 
 const FeatureList = props => {
   const classes = useStyles();
-  const [annotationList, setList] = useState(0)
+  //const [annotationList, setList] = useState(0)
+
+  const dummy_videos = [
+    {
+      'titulo': '2097',
+      'name': '2097.mp4',
+      'url': 'https://res.cloudinary.com/dl9owe03r/video/upload/v1586221997/2097_vvhe4h.mp4'
+    },
+    {
+      'titulo': '2085',
+      'name': '2085.mp4',
+      'url': 'https://res.cloudinary.com/dl9owe03r/video/upload/v1586222045/2085_v9vi2q.mp4'
+    }
+  ];
+
+  const [counter, setCounter] = useState(0)
+  const [url, setUrl] = useState(dummy_videos[0].url)
 
   const [features, setFeatures] = useState([]);
   const [time, setTime] = useState('00:00')
+
 
   const addNewFeature = newFeature => {
     // setCourseGoals(courseGoals.concat(newGoal));
     setFeatures(preveature => preveature.concat(newFeature));
   };
 
+  const removeFeature = featureId => {
+    setFeatures(prevfeature =>
+      prevfeature.filter(feature => feature.id !== featureId)
+    );
+  }
+
   const addTime = newTime => {
     setTime(newTime)
   }
-
-  const addBoxHandler = () => {
-    setList(annotationList + 1)
-    console.log(annotationList)
+  
+  const getNextVideoHandler = () => {
+    if (counter < dummy_videos.length -1 ){
+      setCounter(counter + 1)
+      console.log('nuevo counter', counter)
+      setUrl(dummy_videos[counter].url)
+      console.log('nueva url', url)
+    }
+    else{
+      console.log('Limite de videos')
+      setCounter(0)
+      setUrl(dummy_videos[0].url)
+    }
   }
 
-  function showItems (){
+  //<Button inverse onClick={addBoxHandler}> Add +</Button>
+  //const addBoxHandler = () => {
+  //  setList(annotationList + 1)
+  //  console.log(annotationList)
+  //}
+
+  // {showItems()} asi se llama un funcion dentro del html5 tag
+  /*function showItems (){
     let rows=[]
     for (let i= 0; i < annotationList; i++){
       rows.push(
@@ -56,11 +97,17 @@ const FeatureList = props => {
         ></FeatureItem>)
     }
     return rows;
-  }
+  }*/
 
   useEffect(() => {
-    console.log(features)
-  }, [features]);
+    console.log('Features', features)
+  
+    console.log('url actual', url)
+    console.log('counter actual', counter)
+    console.log('info', dummy_videos)
+    setUrl(dummy_videos[counter].url)
+
+  }, [features, counter, dummy_videos, url]);
 
   return (
     <div className={classes.root}>
@@ -68,22 +115,38 @@ const FeatureList = props => {
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <h2>Herramienta de etiquetado de video</h2>
-            <Button inverse onClick={addBoxHandler}> Add +</Button>
+            <Button inverse onClick={getNextVideoHandler}> Next >></Button>
           </Paper>
         </Grid>
         <Grid item xs={6}>
           <Paper className={classes.paper}>
-            <VideoPlayer onnAddTime = {addTime}/>
+            <VideoPlayer url={url} onnAddTime = {addTime}/>
           </Paper>
         </Grid>
         <Grid item xs={6}>
-          <Paper className={classes.paper} elevation={1}>
-            <form className="place-form">
-              {showItems()}
-            </form>
-          </Paper>
+        <Paper className={classes.paper}>
+          <FeatureItem
+            newTime = {time}
+            onnAddFeature = {addNewFeature}
+            ></FeatureItem>
+
+          <section className="ingredient-list">
+            <h2>Features anotados</h2>
+            <ul>
+              {features.map(f => (
+                <li key={f.id} onClick={removeFeature.bind(this, f.id)}>
+                  <span> Inicio: {f.start}</span>
+                  <span> Fin: {f.end}</span>
+                  <span> Postura: {f.postura}</span>
+                  <span> Tipo: {f.tipo}</span>
+                </li>
+              ))}
+            </ul>
+              <Button type="submit"> Send </Button>
+          </section>
+        </Paper>
+          
         </Grid>
-        
       </Grid>
     </div>
   );

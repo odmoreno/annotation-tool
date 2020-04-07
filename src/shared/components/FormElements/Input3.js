@@ -1,7 +1,26 @@
 import React, { useReducer, useEffect } from 'react';
 
-import { validate } from '../../util/validators';
+//import { validate } from '../../util/validators';
 import './Input.css';
+
+import { makeStyles } from '@material-ui/core/styles';
+//import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+
+
+const useStyles = makeStyles(theme => ({
+  textField: {
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+      width: 100
+  },
+  select: {
+      margin: theme.spacing(1),
+      minWidth: 300,
+  }
+}));
+
 
 const inputReducer = (state, action) => {
   switch (action.type) {
@@ -9,7 +28,7 @@ const inputReducer = (state, action) => {
       return {
         ...state,
         value: action.val,
-        isValid: validate(action.val, action.validators)
+        //isValid: validate(action.val, action.validators)
       };
     case 'TOUCH': {
       return {
@@ -23,6 +42,8 @@ const inputReducer = (state, action) => {
 };
 
 const Input = props => {
+  const classes = useStyles();
+
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: props.initialValue || '',
     isTouched: false,
@@ -60,7 +81,7 @@ const Input = props => {
         onBlur={touchHandler}
         value={inputState.value}
       />
-    ) : (
+    ) : props.element === 'textarea' ?(
       <textarea
         id={props.id}
         rows={props.rows || 3}
@@ -68,12 +89,42 @@ const Input = props => {
         onBlur={touchHandler}
         value={inputState.value}
       />
-    );
-
+    ): props.element === 'timer' ? (
+      <input
+        id= {props.id}
+        label= {props.label}
+        type= "time"
+        value = {inputState.value}
+        className={classes.textField}
+      />
+    ): props.element === 'select' ?(
+      <Select
+        labelId="labelId"
+        id="select"
+        value={inputState.value}
+        onChange={changeHandler}
+        className={classes.select}
+        >
+        <MenuItem value={0}>Mala</MenuItem>
+        <MenuItem value={1}>Buena</MenuItem>
+      </Select>
+    ): (
+      <Select
+        labelId="labelId"
+        id="select"
+        value={inputState.value}
+        onChange={changeHandler}
+        className={classes.select}
+        >
+        <MenuItem value={0}>Postura 1</MenuItem>
+        <MenuItem value={1}>Postura 2</MenuItem>
+        <MenuItem value={1}>Postura 3</MenuItem>
+      </Select>
+    )
   return (
     <div
-      className={`form-control ${!inputState.isValid && inputState.isTouched &&
-        'form-control--invalid'}`}
+    className={`form-control ${!inputState.isValid && inputState.isTouched &&
+      'form-control--invalid'}`}  
     >
       <label htmlFor={props.id}>{props.label}</label>
       {element}

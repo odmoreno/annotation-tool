@@ -69,7 +69,7 @@ const FeatureItem = props => {
     console.log(props.newTime)
     setStartTime(props.newTime)
     console.log(props)
-  }, []);
+  }, [props]);
 
   return (
     <form id={props.id} className="place-item" onSubmit={addFeatureHandle}> 

@@ -12,13 +12,13 @@ import './VideoPlayer.css';
 const VideoPlayer = props => {
 
 
-  const [url, setUrl] = useState('https://rap.cti.espol.edu.ec/static/resultados/3294/video/video_complete.mp4')
+  const [url, setUrl] = useState(props.url)
   const [pip, setPip] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [controls, setControls] = useState(true)
   const [light, setLight] = useState(false)
   const [volume, setVolumen] = useState(0.8)
-  const [muted, setMuted] = useState(true)
+  const [muted, setMuted] = useState(false)
   const [played, setPlayed] = useState(0)
   const [loaded, setLoaded] = useState(0)
   const [duration, setDuration] = useState(0)
@@ -38,7 +38,6 @@ const VideoPlayer = props => {
     setMuted(false)
     setLoop(false)
     setPlaybackRate(1.0)
-
   } 
 
 
@@ -71,6 +70,7 @@ const VideoPlayer = props => {
   }
 
   useEffect(() => {
+    setUrl(props.url)
     const seconds = duration*played
     const date = new Date(seconds * 1000)
     const mm = date.getUTCMinutes()
@@ -111,8 +111,8 @@ const VideoPlayer = props => {
           </div>
         </Grid>
         <Grid item xs={12}>
-          <div classname="info">
-            <h2>State</h2>
+          <div className="info">
+            <h2>Estado</h2>
             <table className="info-info">
             <tbody>
               <tr>
