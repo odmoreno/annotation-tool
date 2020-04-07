@@ -39,6 +39,26 @@ const FeatureList = props => {
       'titulo': '2085',
       'name': '2085.mp4',
       'url': 'https://res.cloudinary.com/dl9owe03r/video/upload/v1586222045/2085_v9vi2q.mp4'
+    },
+    {
+      'titulo': '2083',
+      'name': '2083.mp4',
+      'url': 'https://res.cloudinary.com/dl9owe03r/video/upload/v1586245885/2083_qpidgz.mp4'
+    },
+    {
+      'titulo': '2074',
+      'name': '2074.mp4',
+      'url': 'https://res.cloudinary.com/dl9owe03r/video/upload/v1586245877/2074_guse0e.mp4'
+    },
+    {
+      'titulo': '2096',
+      'name': '2096.mp4',
+      'url': 'https://res.cloudinary.com/dl9owe03r/video/upload/v1586245870/2096_vfaqet.mp4'
+    },
+    {
+      'titulo': '2077',
+      'name': '2077.mp4',
+      'url': 'https://res.cloudinary.com/dl9owe03r/video/upload/v1586245840/2077_jgq7ns.mp4'
     }
   ];
 
