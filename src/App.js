@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, Suspense } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -6,12 +6,17 @@ import {
   Switch
 } from 'react-router-dom';
 
-import Users from './user/pages/Users';
+//import Users from './user/pages/Users';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
-import FeatureList from './annotations/components/FeatureList';
-import Auth from './user/pages/Auth';
+//import FeatureList from './annotations/components/FeatureList';
+//import Auth from './user/pages/Auth';
 
 import { AuthContext } from './shared/context/auth-context';
+import LoadingSpinner from './shared/components/UIElements/LoadingSpinner';
+
+const Users = React.lazy(() => import('./user/pages/Users'));
+const FeatureList = React.lazy(() => import('./annotations/components/FeatureList'));
+const Auth = React.lazy(() => import('./user/pages/Auth'));
 
 const App = () => {
 
@@ -59,7 +64,17 @@ const App = () => {
     >
       <Router>
         <MainNavigation />
-        <main>{routes}</main>
+        <main>
+          <Suspense 
+            fallback={
+              <div className="center">
+                <LoadingSpinner/>
+              </div>
+            }
+            >
+              {routes}
+          </Suspense>
+        </main>
       </Router>
     </AuthContext.Provider>
   );
